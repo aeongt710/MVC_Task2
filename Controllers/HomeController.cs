@@ -72,7 +72,7 @@ namespace MVC_Task2.Controllers
             }
             ViewBag.Errors = _errors.ToArray();
 
-            if (_errors.Count() == 0&& ModelState.IsValid)
+            if (_errors.Count() == 0 && ModelState.IsValid)
             {
                 foreach(var item in Files)
                 {
@@ -89,9 +89,5 @@ namespace MVC_Task2.Controllers
                 
             return View();
         }
-
-
-
-
     }
 }
