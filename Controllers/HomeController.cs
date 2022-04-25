@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MVC_Task2.Models;
@@ -6,6 +7,7 @@ using MVC_Task2.Models.VMs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,9 +17,11 @@ namespace MVC_Task2.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private IHostingEnvironment _environment;
+        public HomeController(ILogger<HomeController> logger, IHostingEnvironment environment)
         {
             _logger = logger;
+            _environment = environment;
         }
 
         public IActionResult Index()
@@ -67,8 +71,22 @@ namespace MVC_Task2.Controllers
                 }
             }
             ViewBag.Errors = _errors.ToArray();
-            if (_errors.Count() == 0)
+
+            if (_errors.Count() == 0&& ModelState.IsValid)
+            {
+                foreach(var item in Files)
+                {
+                    string uploadsFolder = Path.Combine(_environment.WebRootPath, "files");
+                    string filePath = Path.Combine(uploadsFolder, item.FileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        item.CopyTo(fileStream);
+                    }
+                }
+
                 return RedirectToAction("Index");
+            }
+                
             return View();
         }
 
