@@ -58,11 +58,14 @@ namespace MVC_Task2.Controllers
             {
                 _errors.Add("Files Exceeded than 3");
             }
+            if(Files.Count() < 3)
+            {
+                _errors.Add("Files are less than 3");
+            }
             foreach (var item in Files)
             {
                 if (!(item.FileName.EndsWith(".pdf") || item.FileName.EndsWith(".docx")))
                 {
-
                     _errors.Add(item.FileName + " contains invalid File Extension");
                 }
                 if (item.Length / (1024) > (2 * 1024))
