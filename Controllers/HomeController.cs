@@ -40,14 +40,18 @@ namespace MVC_Task2.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public IActionResult Success()
+        {
+            return View();
+        }
 
-
+        
         public IActionResult UploadFiles()
         {
             FileVM vm = new FileVM();
             return View(vm);
         }
-
+        //Using Check to inforce data integrity
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UploadFiles(IFormFile[] Files)
@@ -74,7 +78,6 @@ namespace MVC_Task2.Controllers
                 }
             }
             ViewBag.Errors = _errors.ToArray();
-
             if (_errors.Count() == 0 && ModelState.IsValid)
             {
                 foreach(var item in Files)
@@ -86,10 +89,34 @@ namespace MVC_Task2.Controllers
                         item.CopyTo(fileStream);
                     }
                 }
-
-                return RedirectToAction("Index");
+                return RedirectToAction("Success");
             }
-                
+            return View();
+        }
+
+
+        public IActionResult UploadFiles2()
+        {
+            FileVM2 vm = new FileVM2();
+            return View(vm);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UploadFiles2(FileVM2 vm)
+        {
+            if(ModelState.IsValid)
+            {
+                foreach (var item in vm.Files)
+                {
+                    string uploadsFolder = Path.Combine(_environment.WebRootPath, "files2");
+                    string filePath = Path.Combine(uploadsFolder, item.FileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        item.CopyTo(fileStream);
+                    }
+                }
+                return RedirectToAction("Success");
+            }
             return View();
         }
     }
