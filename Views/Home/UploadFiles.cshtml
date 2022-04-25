@@ -1,0 +1,34 @@
+﻿@model MVC_Task2.Models.VMs.FileVM
+
+<h2>Upload Files</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UploadFiles" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row ">
+                <label asp-for="Files" class="col-md-3 form-label"></label>
+                <div class="col-md-7">
+                    <input asp-for="Files" class=""/>
+                    <span asp-validation-for="Files" class="text-danger" ></span>
+                </div>
+            </div>
+            @{
+                if (ViewBag.Errors != null)
+                    if (ViewBag.Errors.Length > 0)
+                    {
+                        foreach (var item in ViewBag.Errors)
+                        {
+                            <li class="text-danger">@item</li>
+                        }
+                    }
+            }
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+@section scripts{
+<partial name="_ValidationScriptsPartial" />
+}
