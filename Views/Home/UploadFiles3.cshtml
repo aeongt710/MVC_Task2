@@ -1,0 +1,37 @@
+﻿@model MVC_Task2.Models.VMs.FileVM3
+
+
+
+<h2>Upload Files3 (Each file separately Using Data Annotations)</h2>
+<h4>Files will be uploaded to wwwroot/files3</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UploadFiles3" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col">
+                <label asp-for="File1" class="control-label"></label>
+                <input asp-for="File1" class="" />
+                <span asp-validation-for='File1' class='text-danger'></span>
+            </div>
+            <div class="form-group col">
+                <label asp-for="File2" class="control-label"></label>
+                <input asp-for="File2" class="" />
+                <span asp-validation-for='File2' class='text-danger'></span>
+            </div>
+            <div class="form-group col">
+                <label asp-for="File3" class="control-label"></label>
+                <input asp-for="File3" class="" />
+                <span asp-validation-for='File3' class='text-danger'></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Upload Files" class="btn btn-outline-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section scripts{
+<partial name="_ValidationScriptsPartial" />
+}

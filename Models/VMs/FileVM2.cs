@@ -8,7 +8,7 @@ namespace MVC_Task2.Models.VMs
     {
         [Required]
         [MaxFiles(3)]
-        [FileExtens(new string[]{".pdf",".docx"})]
+        [FileExtens(".pdf",".docx")]
         [FileSize(2)]
         public IEnumerable<IFormFile> Files { get; set; }
     }

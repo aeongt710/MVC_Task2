@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MVC_Task2.Models;
 using MVC_Task2.Models.VMs;
+using Refit;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -114,6 +115,44 @@ namespace MVC_Task2.Controllers
                     {
                         item.CopyTo(fileStream);
                     }
+                }
+                return RedirectToAction("Success");
+            }
+            return View();
+        }
+
+        public IActionResult UploadFiles3()
+        {
+            FileVM3 fileVM3 = new FileVM3();
+            return View(fileVM3);
+        }
+
+        [HttpPost]
+        [Multipart]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult UploadFiles3(FileVM3 fileVM3)
+        {
+            if (ModelState.IsValid)
+            {
+                string uploadsFolder = Path.Combine(_environment.WebRootPath, "files3");
+                string filePath = Path.Combine(uploadsFolder, fileVM3.File1.FileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    fileVM3.File1.CopyTo(fileStream);
+                }
+
+                uploadsFolder = Path.Combine(_environment.WebRootPath, "files3");
+                filePath = Path.Combine(uploadsFolder, fileVM3.File2.FileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    fileVM3.File2.CopyTo(fileStream);
+                }
+
+                uploadsFolder = Path.Combine(_environment.WebRootPath, "files3");
+                filePath = Path.Combine(uploadsFolder, fileVM3.File3.FileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    fileVM3.File3.CopyTo(fileStream);
                 }
                 return RedirectToAction("Success");
             }
